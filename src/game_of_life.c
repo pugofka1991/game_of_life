@@ -25,8 +25,8 @@ void delay(int number_of_seconds);
 int main(int resolution, char ** v) {
     // принимает данные о размере поля сразу с запуском => ./a.out 30 30 => размер поля будет 30 на 30
     int poleSizeWidht = 0, poleSizeHight = 0;
-    if (resolution > 1) poleSizeWidht = atoi(v[1]);
-    if (resolution > 1) poleSizeWidht = atoi(v[1]);
+    if (resolution > 1) poleSizeWidht = atoi(v[0]);
+    if (resolution > 1) poleSizeHight = atoi(v[1]);
 
     if (0 >= poleSizeWidht) poleSizeWidht = 30;
     if (0 >= poleSizeHight) poleSizeHight = 30;
