@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#define delayTime 100000
 #define WIDHT 81
 #define HIGHT 25
 
@@ -11,20 +10,27 @@ void initial_position(char **pole);
 void new_pole(char **pole, char **buff);
 void game(char **pole, char **buff);
 int sosed_count(char **pole, int x, int y);
+void stop_game(char **pole, char **buff, int *flag);
 
 int main() {
+    int  delayTime = 100000;
     char **pole_game = NULL;
     char** buff = NULL;
+    char speed;
+    int flag = 1;
     pole_game = create_matrix();
     buff = create_matrix();
     initial_position(pole_game);
-    // game(pole_game, buff);
-     //new_pole(pole_game, buff);
-    while (1) {
-        
-        game(pole_game, buff);
-        new_pole(pole_game, buff);
-        usleep(delayTime);
+    int e = 100;
+    while (e > 0) {
+        if (flag == 1) {
+            game(pole_game, buff);
+            new_pole(pole_game, buff);
+            usleep(delayTime);
+        } else {
+            break;
+        }
+        e--;
     }
     free(pole_game);
     free(buff);
@@ -32,7 +38,7 @@ int main() {
 }
 
 char** create_matrix() {
-    char** matrix = (char**) malloc(HIGHT * sizeof(char*) + WIDHT * HIGHT * sizeof(char));
+    char** matrix = malloc(HIGHT * sizeof(char*) + WIDHT * HIGHT * sizeof(char));
     char *ptr = (char *) (matrix + HIGHT);
     for (int i = 0; i < HIGHT; i++) {
         matrix[i] = ptr + WIDHT *i;
@@ -50,9 +56,21 @@ void new_pole(char **pole, char **buff) {
     }
 }
 
+void stop_game(char **pole, char **buff, int *flag) {
+    for (int i = 0; i < HIGHT; i++) {
+        for (int j = 0; j < WIDHT; j++) {
+            if (pole[i][j] == '_') {
+                *flag = 0;
+            }
+           // if (pole[i][j] != buff[i][j]) {
+            //*flag = 1;
+           // }
+        }
+    }
+}
+
 void game(char **pole, char **buff) {
     int sosed = 0;
-    //char state = ' ';
     for (int i = 0; i < HIGHT; i++) {
         for (int j = 0; j < WIDHT; j++) {
             sosed = sosed_count(pole, i, j);
@@ -88,7 +106,6 @@ void initial_position(char **pole) {
         for (int j = 0; j < WIDHT; j++) {
             if (scanf("%c", &c) != EOF) {
                 pole[i][j] = c;
-                //printf("%c", pole[i][j]);
             }
         }
     }
