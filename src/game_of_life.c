@@ -137,8 +137,12 @@ void free_fun(char** pole_game, char** buff, char** buff_2) {
 
 void button(int* speed) {
     char new_speed = kbhit();
-            if (new_speed == '+') *speed++;
-            if (new_speed == '-') {
-                if (*speed > 1) *speed--;
-            }
+    if (new_speed == '+') {
+        *speed = *speed + 1;
+    }
+    if (new_speed == '-') {
+        if (*speed > 1) {
+            *speed = *speed - 1;
+        }
+    }
 }
